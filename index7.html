@@ -32,7 +32,7 @@
             transform: scale(3);
         }
 
-        .detail-button {
+        .reserve-button {
             margin-top: 100px;
         }
     </style>
@@ -85,6 +85,15 @@
         table.style.left = centerX - radius + 'px';
         document.body.appendChild(table);
 
+        // '좌석예약' 문구 추가
+        const reservationText = document.createElement('div');
+        reservationText.textContent = 'Reservation';
+        reservationText.style.fontSize = '50px';
+        reservationText.style.position = 'absolute';
+        reservationText.style.top = centerY - 38 + 'px'; // 수직 중앙 정렬
+        reservationText.style.left = centerX - 140 + 'px'; // 수평 중앙 정렬
+        document.body.appendChild(reservationText);
+
         // 원 주변에 카드를 배치하기
         const numberOfCards = 24; // 카드의 개수
         const cardWidth = 70; // 카드의 너비
@@ -127,7 +136,7 @@
             const cards = document.querySelectorAll('.card');
             let isFirstClick = true;
             let prevAngle = 0;
-            let detailButton = null; // 변수 추가
+            let reserveButton = null; // 변수 추가
 
             cards.forEach(card => {
                 card.addEventListener('click', function () {
@@ -145,12 +154,12 @@
                         const deltaY = cardRect.top + cardRect.height / 2 - centerY;
                         prevAngle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
 
-                        // '자세히' 버튼 추가
-                        detailButton = document.createElement('button');
-                        detailButton.textContent = '자세히';
-                        detailButton.classList.add('detail-button');
-                        detailButton.addEventListener('click', handleDetailClick);
-                        card.appendChild(detailButton);
+                        // '좌석예약' 버튼 추가
+                        reserveButton = document.createElement('button');
+                        reserveButton.textContent = '좌석예약';
+                        reserveButton.classList.add('reserve-button');
+                        reserveButton.addEventListener('click', handleReserveClick);
+                        card.appendChild(reserveButton);
 
                     } else {
                         rotateToPreviousAngle(card, prevAngle + 90); // 이전 각도에 90도를 더해줌
@@ -158,10 +167,10 @@
                         card.querySelector('img').classList.remove('isSecond');
                         card.querySelector('img').style.transform = 'scale(1)';
 
-                        // '자세히' 버튼 제거
-                        if (detailButton) {
-                            detailButton.remove();
-                            detailButton = null;
+                        // '좌석예약' 버튼 제거
+                        if (reserveButton) {
+                            reserveButton.remove();
+                            reserveButton = null;
                         }
 
                     }
@@ -184,10 +193,10 @@
                 card.style.transform = `rotate(${angle}deg)`;
             }
 
-            function handleDetailClick() {
-                // '자세히' 버튼을 눌렀을 때의 동작 추가
-                console.log('자세히 버튼 클릭');
-                // TODO: 상세페이지로 이동하는 로직 추가
+            function handleReserveClick() {
+                // '좌석예약' 버튼을 눌렀을 때의 동작 추가
+                console.log('좌석예약 버튼 클릭');
+                window.location.href = url;
             }
         });
 
